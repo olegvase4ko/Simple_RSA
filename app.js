@@ -113,6 +113,33 @@ function decoding() {
     console.log('m : ' + m);
 
 }
-decoding();
+
+function CreateDigitalSignature(m, SecretKey) {
+
+    const secretKey = CreateKey().secretKey;
+    const d = secretKey[0];
+    const n = secretKey[1];
+    let key = [];
+    let s = m ** d % n;
+    key.push(m, s);
+    return key;
+}
+function CheckDigitalSignature(Signature = CreateDigitalSignature(69n, CreateKey().secretKey), OpenKey = CreateKey().openKey) {
+    let m = Signature[0];
+    let s = Signature[1];
+    let e = OpenKey[0];
+    let n = OpenKey[1];
+    let check = s ** e % n;
+    if (m === check) {
+        console.log('Signature is true!');
+
+    } else {
+        console.log('Signature is false!');
+        console.log('Signature: ' + s);
+        console.log('Compare with: ' + check);
+    }
+}
+CheckDigitalSignature();
+//decoding();
 //Encription();
 //CreateKey();
